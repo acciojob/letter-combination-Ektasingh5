@@ -1,4 +1,4 @@
-function letterCombinations(digit) {
+function letterCombinations(digits) {
   //Complete the function
 	  if(digits == ""){
         return [];
