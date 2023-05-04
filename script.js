@@ -1,35 +1,40 @@
-function letterCombinations(digits) {
-  //Complete the function
-	  if(digits == ""){
-        return [];
+const letterCombinations = function(digits) {
+  // Create a mapping of digits to their corresponding letters
+  const mapping = {
+    '2': 'abc',
+    '3': 'def',
+    '4': 'ghi',
+    '5': 'jkl',
+    '6': 'mno',
+    '7': 'pqrs',
+    '8': 'tuv',
+    '9': 'wxyz'
+  };
+  
+  // If the input is empty, return an empty array
+  if (digits === '') {
+    return [];
+  }
+  
+  // If the input contains only one digit, return the corresponding letters
+  if (digits.length === 1) {
+    return mapping[digits].split('');
+  }
+  
+  // For input with more than one digit, recursively calculate letter combinations
+  const restCombinations = letterCombinations(digits.slice(1));
+  const firstDigitLetters = mapping[digits[0]].split('');
+  
+  // Combine the first digit's letters with the rest of the combinations
+  const combinations = [];
+  for (let i = 0; i < firstDigitLetters.length; i++) {
+    for (let j = 0; j < restCombinations.length; j++) {
+      combinations.push(firstDigitLetters[i] + restCombinations[j]);
     }
-    let table = [ '0','1','abc','def','ghi','jkl','mno','pqrs','tuv','wxyz'];
-     
-    let res =[];
-    let que = [''];
-     
-    while(que.length>0){
-        let str = que[0];
-        que.shift();
-         
-        if(str.length == digits.length){
-            res.push(str); // if all digits are replaced with char push to result
-        } else{
-//             get the current number from the digits i.e if str.length = 2 , digits =123 s= 3
-            let s= Number(digits.charAt(str.length));
-            let val = table[s]; // get char from the table i.e def for s =3
-             
-            for(i=0;i<val.length;i++){
-                que.push(str+val.charAt(i));
-            }
-        }
-    }
-     
-    return res;
-     
-}
- 
-  // Driver code
-    let str = "23";
-    document.write(letterCombinations(str));
+  }
+  
+  // Sort the combinations lexicographically and return
+  return combinations.sort();
+};
+
 module.exports = letterCombinations;
